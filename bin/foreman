@@ -1,0 +1,19 @@
+#!/usr/bin/env ruby
+
+require 'dotenv'
+require 'foreman'
+require 'foreman/cli'
+require 'foreman/engine'
+
+# Fix https://github.com/ddollar/foreman/issues/561
+module EnginePatch
+  def load_env(filename)
+    @env.update Dotenv::Environment.new(filename)
+  end
+end
+
+unless Foreman::Engine.included_modules.include?(EnginePatch)
+  Foreman::Engine.send(:prepend, EnginePatch)
+end
+
+Foreman::CLI.start

@@ -1,0 +1,1 @@
+server 'server.example.net', user: 'sinatra-skeleton', roles: %w{app db web}

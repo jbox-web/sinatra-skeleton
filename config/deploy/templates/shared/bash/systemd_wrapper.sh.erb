@@ -1,0 +1,75 @@
+#!/bin/bash
+
+function make_index() {
+  local index_name=$1
+  shift
+  local -a value_array=("$@")
+  local i
+  # -A means associative array, -g means create a global variable:
+  declare -g -A ${index_name}
+  for i in "${!value_array[@]}"; do
+    eval ${index_name}["${value_array[$i]}"]=$i
+  done
+}
+
+<%- services.each_with_index do |service, index| -%>
+function <%= service %>_service() {
+  systemctl --user $1 <%= fetch(:application) %>-<%= service %>@5<%= index %>00.service
+}
+
+<%- end -%>
+
+function all_services() {
+<%- services.each do |service| -%>
+  <%= service %>_service $1
+<%- end -%>
+}
+
+function call_systemd() {
+  if [ ! -z $2 ]; then
+    if [ "${services_index[$2]}" ]; then
+      $2_service $1
+    else
+      usage
+    fi
+  else
+    all_services $1
+  fi
+}
+
+function usage() {
+  echo "Usage: <%= fetch(:application) %> {start|stop|restart|status} {<%= services.join('|') %>}"
+  return 1
+}
+
+services=(<%= services.join(' ') %>)
+make_index services_index "${services[@]}"
+
+case "$1" in
+  start)
+    call_systemd "start" $2
+    retval=$?
+    ;;
+
+  stop)
+    call_systemd "stop" $2
+    retval=$?
+    ;;
+
+  restart)
+    call_systemd "restart" $2
+    retval=$?
+    ;;
+
+  status)
+    call_systemd "status" $2
+    retval=$?
+    ;;
+
+  *)
+    usage
+    retval=$?
+    ;;
+esac
+
+exit $retval

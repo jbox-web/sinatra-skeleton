@@ -1,0 +1,13 @@
+[Unit]
+Description=<%= app.capitalize %> <%= name.split('_').map(&:capitalize).join('') %>
+PartOf=<%= app %>-<%= name %>.target
+
+[Service]
+# Foreground process (do not use --daemon in ExecStart or config.rb)
+Type=simple
+WorkingDirectory=<%= engine.root %>
+ExecStart=/bin/bash -lc '<%= process.command %>'
+Restart=always
+TimeoutStopSec=<%= engine.options[:timeout] %>
+PrivateTmp=true
+NoNewPrivileges=true

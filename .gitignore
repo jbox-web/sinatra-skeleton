@@ -1,0 +1,12 @@
+# Ignore all logfiles and tempfiles.
+/log/*
+/tmp/*
+!/log/.gitkeep
+!/tmp/.gitkeep
+
+# Ignore Dotenv files
+/.env
+/.env.*
+
+# Ignore Capistrano files
+/config/deploy/production.rb
