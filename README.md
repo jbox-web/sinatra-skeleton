@@ -1,7 +1,6 @@
 # Sinatra Skeleton
 
 [![GitHub license](https://img.shields.io/github/license/jbox-web/sinatra-skeleton.svg)](https://github.com/jbox-web/sinatra-skeleton/blob/master/LICENSE)
-[![Dependency Status](https://gemnasium.com/badges/github.com/jbox-web/sinatra-skeleton.svg)](https://gemnasium.com/github.com/jbox-web/sinatra-skeleton)
 
 A skeleton for Sinatra application.
 
