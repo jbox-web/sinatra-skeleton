@@ -1,1 +1,1 @@
-web: sbin/puma -C config/puma.rb
+web: bin/puma -C config/puma.rb
