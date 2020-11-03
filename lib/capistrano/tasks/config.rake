@@ -1,11 +1,13 @@
+# frozen_string_literal: true
+
 namespace :config do
 
   def syslog_services
-    fetch(:deploy_config, {}).dig(:syslog_services) || []
+    fetch(:deploy_config, {})[:syslog_services] || []
   end
 
   def configure_services
-    fetch(:deploy_config, {}).dig(:configure_services) || []
+    fetch(:deploy_config, {})[:configure_services] || []
   end
 
   desc 'Install configuration files'
@@ -18,8 +20,8 @@ namespace :config do
   desc 'Generate configuration files'
   task :generate do
     # Invoke base tasks
-    Rake::Task["config:app:generate"].invoke
-    Rake::Task["config:bash:generate"].invoke
+    Rake::Task['config:app:generate'].invoke
+    Rake::Task['config:bash:generate'].invoke
 
     # Invoke additional tasks
     configure_services.each do |template|
@@ -31,7 +33,7 @@ namespace :config do
   namespace :app do
     desc 'Install application config'
     task :generate do
-      on roles(:all) do |host|
+      on roles(:all) do |_host|
         # Create config dir
         execute 'mkdir', '-p', "#{shared_path}/config"
         execute 'mkdir', '-p', "#{shared_path}/tmp/sockets"
@@ -55,18 +57,18 @@ namespace :config do
   namespace :bash do
     desc 'Install bash files'
     task :generate do
-      on roles(:all) do |host|
+      on roles(:all) do |_host|
         # Install bash profile with a fix for env vars and systemd
-        template 'bash/profile', "#{deploy_to}/.profile", 0644
+        template 'bash/profile', "#{deploy_to}/.profile", 0o644
       end
 
-      on roles(:app) do |host|
+      on roles(:app) do |_host|
         # Create bin dir
         execute 'mkdir', '-p', "#{deploy_to}/bin"
 
         # Install wrapper script around systemd services
         services = fetch(:foreman_services, [])
-        template 'bash/systemd_wrapper.sh', "#{deploy_to}/bin/#{fetch(:application)}", 0755, locals: { services: services }
+        template 'bash/systemd_wrapper.sh', "#{deploy_to}/bin/#{fetch(:application)}", 0o755, locals: { services: services }
       end
     end
   end

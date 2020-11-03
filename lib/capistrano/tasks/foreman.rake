@@ -1,14 +1,16 @@
+# frozen_string_literal: true
+
 namespace :foreman do
-  after  'foreman:export', 'foreman:reload'
+  after 'foreman:export', 'foreman:reload'
 
   desc 'Setup systemd'
   task :install do
-    on roles fetch(:foreman_roles) do |host|
+    on roles fetch(:foreman_roles) do |_host|
       # Create Foreman templates directory
       execute 'mkdir', '-p', "#{deploy_to}/.foreman/templates/systemd"
 
       # Copy Foreman systemd templates
-      %w(master.target.erb process.service.erb process_master.target.erb).each do |file|
+      %w[master.target.erb process.service.erb process_master.target.erb].each do |file|
         source = "config/deploy/templates/shared/foreman/#{file}"
         upload! source, "#{deploy_to}/.foreman/templates/systemd/#{file}"
       end
@@ -18,7 +20,7 @@ namespace :foreman do
 
   desc 'Reload systemd'
   task :reload do
-    on roles fetch(:foreman_roles) do |host|
+    on roles fetch(:foreman_roles) do |_host|
       execute 'systemctl', '--user', 'daemon-reload'
     end
   end
@@ -38,7 +40,7 @@ namespace :foreman do
 
   desc 'Enable application with systemd'
   task :enable do
-    on roles fetch(:foreman_roles) do |host|
+    on roles fetch(:foreman_roles) do |_host|
       execute 'systemctl', '--user', 'enable', "#{fetch(:application)}.target"
     end
   end
@@ -46,7 +48,7 @@ namespace :foreman do
 
   desc 'Disable application with systemd'
   task :disable do
-    on roles fetch(:foreman_roles) do |host|
+    on roles fetch(:foreman_roles) do |_host|
       execute 'systemctl', '--user', 'disable', "#{fetch(:application)}.target"
     end
   end
@@ -55,7 +57,7 @@ namespace :foreman do
   # Override original method to add our systemd arguments.
   def foreman_exec(*args)
     if args.first == :foreman
-      execute *args
+      execute(*args)
     else
       args.shift
       execute 'systemctl', '--user', *args

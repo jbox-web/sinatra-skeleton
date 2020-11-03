@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # config valid only for current version of Capistrano
 lock '3.9.1'
 
@@ -8,9 +10,9 @@ set :deploy_to,   '/data/www/sinatra-skeleton'
 
 ## SSH
 set :ssh_options, {
-  keys:          [File.join(Dir.home, '.ssh', 'id_rsa')],
+  keys: [File.join(Dir.home, '.ssh', 'id_rsa')],
   forward_agent: true,
-  auth_methods:  %w[publickey]
+  auth_methods: %w[publickey]
 }
 
 ## RVM
@@ -29,8 +31,8 @@ set :foreman_services,    %w[web]
 set :foreman_export_path, "#{deploy_to}/.config/systemd/user"
 set :foreman_options,     {
   template: "#{deploy_to}/.foreman/templates/systemd",
-  root:     current_path,
-  timeout:  30,
+  root: current_path,
+  timeout: 30
 }
 
 ## Deployment steps

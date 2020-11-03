@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module SinatraSkeleton
   module Config
 
@@ -8,7 +10,7 @@ module SinatraSkeleton
     def self.to_h
       {
         app_name: app_name,
-        version:  SinatraSkeleton::VERSION,
+        version: SinatraSkeleton::VERSION
       }
     end
 

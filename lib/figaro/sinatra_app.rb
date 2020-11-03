@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 module Figaro
   class SinatraApp < Figaro::Application
     private
 
     def default_path
-      File.join("config", "application.yml")
+      File.join('config', 'application.yml')
     end
 
     def default_environment

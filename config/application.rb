@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Load application dependencies in Ruby LOAD_PATH
 require_relative 'boot'
 
