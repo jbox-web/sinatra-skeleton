@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 source 'https://rubygems.org'
 
 # Server
@@ -17,8 +19,10 @@ gem 'foreman'
 group :development do
   # Deployment
   gem 'capistrano'
-  gem 'capistrano-rvm'
   gem 'capistrano-bundler'
   gem 'capistrano-foreman'
+  gem 'capistrano-rvm'
   gem 'capistrano-template'
+
+  gem 'rubocop'
 end
