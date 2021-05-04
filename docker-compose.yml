@@ -1,0 +1,34 @@
+version: '3.9'
+
+services:
+  frontend:
+    image: sinatra-skeleton
+    build: .
+    command:
+      - bin/foreman
+      - start
+      - puma
+    networks:
+      - traefik-public
+      - sinatra-private-network
+    expose:
+      - '5000'
+    deploy:
+      mode: replicated
+      replicas: 1
+      labels:
+        - traefik.enable=true
+        - traefik.http.services.sinatra.loadbalancer.server.port=8000
+        - traefik.http.routers.sinatra.rule=Host(`sinatra.${DOMAIN}`)
+        - traefik.http.routers.sinatra.entrypoints=http,https
+        - traefik.http.routers.sinatra.middlewares=redirect@file
+
+  redis:
+    image: redis:alpine
+    networks:
+      - sinatra-private-network
+
+networks:
+  sinatra-private-network:
+  traefik-public:
+    external: true
