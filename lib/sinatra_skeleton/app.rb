@@ -8,6 +8,7 @@ module SinatraSkeleton
     end
 
     get '/settings/' do
+      content_type :json
       SinatraSkeleton::Config.to_h.to_json
     end
 

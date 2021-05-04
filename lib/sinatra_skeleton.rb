@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 require 'yaml'
+require 'socket'
+require 'etc'
 
 module SinatraSkeleton
 
