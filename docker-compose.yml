@@ -1,9 +1,11 @@
-version: '3.9'
+version: '3.7'
 
 services:
   frontend:
     image: sinatra-skeleton
     build: .
+    env_file:
+      - .env.production
     command:
       - bin/foreman
       - start
