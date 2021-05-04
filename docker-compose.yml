@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   frontend:
-    image: sinatra-skeleton
+    image: ${SWARMLET_REGISTRY}/sinatra-skeleton
     build: .
     env_file:
       - .env.production
