@@ -20,7 +20,7 @@ services:
       replicas: 1
       labels:
         - traefik.enable=true
-        - traefik.http.services.sinatra.loadbalancer.server.port=8000
+        - traefik.http.services.sinatra.loadbalancer.server.port=5000
         - traefik.http.routers.sinatra.rule=Host(`sinatra.${DOMAIN}`)
         - traefik.http.routers.sinatra.entrypoints=http,https
         - traefik.http.routers.sinatra.middlewares=redirect@file
