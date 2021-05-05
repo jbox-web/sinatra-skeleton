@@ -59,11 +59,11 @@ services:
       - sinatra-private-network
 
   redis:
-    image: redis:alpine
+    image: redis:6.2-buster
     expose:
       - '6379'
     volumes:
-      - redis_data:/var/lib/redis
+      - redis_data:/data
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 10s
