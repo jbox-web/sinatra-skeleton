@@ -41,6 +41,23 @@ services:
     networks:
       - sinatra-private-network
 
+  mysql:
+    image: mariadb:10.6
+    env_file:
+      - .env.mysql
+    expose:
+      - '3306'
+    volumes:
+      - mysql_data:/var/lib/mysql
+    # TODO: add healthcheck
+    # healthcheck:
+    #   test: ["CMD", "mysqladmin", "-h", "0.0.0.0", "-P", "3306", "ping"]
+    #   interval: 10s
+    #   timeout: 3s
+    #   retries: 5
+    networks:
+      - sinatra-private-network
+
   redis:
     image: redis:alpine
     expose:
@@ -62,4 +79,5 @@ networks:
 
 volumes:
   postgres_data:
+  mysql_data:
   redis_data:
