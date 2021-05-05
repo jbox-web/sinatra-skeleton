@@ -25,6 +25,22 @@ services:
         - traefik.http.routers.sinatra.entrypoints=http,https
         - traefik.http.routers.sinatra.middlewares=redirect@file
 
+  postgres:
+    image: postgres:13
+    env_file:
+      - .env.postgres
+    expose:
+      - '5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD", "pg_isready", "-h", "0.0.0.0", "-p", "5432", "-U", "sinatra"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+    networks:
+      - sinatra-private-network
+
   redis:
     image: redis:alpine
     networks:
@@ -34,3 +50,6 @@ networks:
   sinatra-private-network:
   traefik-public:
     external: true
+
+volumes:
+  postgres_data:
