@@ -30,7 +30,7 @@ RUN \
   apt-get update && apt-get upgrade -y && \
   \
   # Install dependencies
-  apt-get install -y build-essential && \
+  apt-get install -y build-essential libpq-dev libmariadb-dev && \
   \
   # Add our user and group first to make sure their IDs get assigned consistently, regardless of whatever dependencies get added
   groupadd --gid 1000 runner && useradd --uid 1000 --gid 1000 --home-dir /home/runner --shell /bin/bash --create-home runner && \

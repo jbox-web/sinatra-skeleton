@@ -3,6 +3,8 @@
 require 'yaml'
 require 'socket'
 require 'etc'
+require 'mysql2'
+require 'pg'
 
 module SinatraSkeleton
 

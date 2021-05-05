@@ -16,6 +16,10 @@ gem 'settingslogic'
 # Foreman (so we can export systemd config files)
 gem 'foreman'
 
+# DB
+gem 'mysql2'
+gem 'pg'
+
 group :development do
   # Deployment
   gem 'capistrano'
