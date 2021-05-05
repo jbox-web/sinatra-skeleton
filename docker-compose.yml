@@ -43,6 +43,15 @@ services:
 
   redis:
     image: redis:alpine
+    expose:
+      - '6379'
+    volumes:
+      - redis_data:/var/lib/redis
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
     networks:
       - sinatra-private-network
 
@@ -53,3 +62,4 @@ networks:
 
 volumes:
   postgres_data:
+  redis_data:
