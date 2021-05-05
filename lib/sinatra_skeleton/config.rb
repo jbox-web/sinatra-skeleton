@@ -16,6 +16,7 @@ module SinatraSkeleton
         ip_address: Socket.ip_address_list.detect { |intf| intf.ipv4_private? }.ip_address,
         user:       Etc.getlogin,
         postgres:   postgres_check,
+        mysql:      mysql_check,
         env:        ENV.to_h,
       }
     end
@@ -23,6 +24,11 @@ module SinatraSkeleton
     def self.postgres_check
       conn = PG.connect(host: ENV['POSTGRES_DB_HOST'], port: ENV['POSTGRES_DB_PORT'], user: ENV['POSTGRES_DB_USER'], password: ENV['POSTGRES_DB_PASS'], dbname: ENV['POSTGRES_DB_NAME'])
       conn.exec( "SELECT * FROM pg_stat_activity" ).to_a.select { |r| r['usename'] == ENV['POSTGRES_DB_USER'] }
+    end
+
+    def self.mysql_check
+      conn = Mysql2::Client.new(host: ENV['MYSQL_DB_HOST'], port: ENV['MYSQL_DB_PORT'], username: ENV['MYSQL_DB_USER'], password: ENV['MYSQL_DB_PASS'], database: ENV['MYSQL_DB_NAME'])
+      conn.query('SELECT * from mysql.user').to_a.select { |r| r['User'] == ENV['MYSQL_DB_USER'] }
     end
   end
 end
