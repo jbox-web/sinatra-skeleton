@@ -15,6 +15,7 @@ module SinatraSkeleton
         hostname:   Socket.gethostname,
         ip_address: Socket.ip_address_list.detect { |intf| intf.ipv4_private? }.ip_address,
         user:       Etc.getlogin,
+        redis:      redis_check,
         postgres:   postgres_check,
         mysql:      mysql_check,
         env:        ENV.to_h,
@@ -29,6 +30,11 @@ module SinatraSkeleton
     def self.mysql_check
       conn = Mysql2::Client.new(host: ENV['MYSQL_DB_HOST'], port: ENV['MYSQL_DB_PORT'], username: ENV['MYSQL_DB_USER'], password: ENV['MYSQL_DB_PASS'], database: ENV['MYSQL_DB_NAME'])
       conn.query('SELECT * from mysql.user').to_a.select { |r| r['User'] == ENV['MYSQL_DB_USER'] }
+    end
+
+    def self.redis_check
+      conn = Redis.new(host: ENV['REDIS_HOST'], port: ENV['REDIS_PORT'])
+      conn.incr('hits')
     end
   end
 end

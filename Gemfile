@@ -19,6 +19,7 @@ gem 'foreman'
 # DB
 gem 'mysql2'
 gem 'pg'
+gem 'redis'
 
 group :development do
   # Deployment

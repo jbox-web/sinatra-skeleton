@@ -44,6 +44,7 @@ GEM
       rack
     rainbow (3.0.0)
     rake (13.0.3)
+    redis (4.2.5)
     regexp_parser (2.1.1)
     rexml (3.2.5)
     rubocop (1.13.0)
@@ -87,6 +88,7 @@ DEPENDENCIES
   mysql2
   pg
   puma
+  redis
   rubocop
   settingslogic
   sinatra
