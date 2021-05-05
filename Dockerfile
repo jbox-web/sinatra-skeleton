@@ -59,7 +59,6 @@ ENV DOCKER=true \
     RACK_ENV=production
 
 # Install gems
-RUN gem update --system
 RUN bundle config set without development test
 RUN bundle install --jobs 4 --retry 3
 
